@@ -3,621 +3,440 @@
 
 <head>
 
-    <meta charset="UTF-8">
-
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
-
-    <title>Caesar Cipher Public Feed</title>
-
-
-    <style>
-
-        * {
-            box-sizing: border-box;
-        }
-
-
-        body {
-
-            margin: 0;
-
-            padding: 30px;
-
-            font-family: Arial, sans-serif;
-
-            background: #f2f4f7;
-
-        }
-
-
-        .container {
-
-            max-width: 750px;
-
-            margin: auto;
-
-            background: white;
-
-            padding: 30px;
-
-            border-radius: 12px;
-
-            box-shadow:
-                0 4px 15px rgba(0,0,0,0.1);
-
-        }
-
-
-        h1 {
-
-            text-align: center;
-
-            margin-bottom: 30px;
-
-        }
-
-
-        h2 {
-
-            margin-top: 35px;
-
-        }
-
-
-        label {
-
-            display: block;
-
-            font-weight: bold;
-
-            margin-bottom: 7px;
-
-        }
-
-
-        textarea {
-
-            width: 100%;
-
-            min-height: 120px;
-
-            padding: 12px;
-
-            border: 1px solid #ccc;
-
-            border-radius: 6px;
-
-            resize: vertical;
-
-            font-size: 15px;
-
-            margin-bottom: 18px;
-
-        }
-
-
-        input {
-
-            width: 100%;
-
-            padding: 12px;
-
-            border: 1px solid #ccc;
-
-            border-radius: 6px;
-
-            font-size: 15px;
-
-            margin-bottom: 18px;
-
-        }
-
-
-        button {
-
-            border: none;
-
-            border-radius: 6px;
-
-            padding: 12px 18px;
-
-            font-size: 15px;
-
-            cursor: pointer;
-
-        }
-
-
-        .encrypt-button {
-
-            background: #2563eb;
-
-            color: white;
-
-        }
-
-
-        .encrypt-button:hover {
-
-            background: #1d4ed8;
-
-        }
-
-
-        .decrypt-button {
-
-            background: #16a34a;
-
-            color: white;
-
-        }
-
-
-        .decrypt-button:hover {
-
-            background: #15803d;
-
-        }
-
-
-        .result {
-
-            margin-top: 20px;
-
-            padding: 15px;
-
-            background: #eef2ff;
-
-            border-radius: 6px;
-
-            word-wrap: break-word;
-
-        }
-
-
-        .message {
-
-            margin-top: 15px;
-
-            padding: 18px;
-
-            background: #f8fafc;
-
-            border-left: 5px solid #2563eb;
-
-            border-radius: 6px;
-
-        }
-
-
-        .ciphertext {
-
-            padding: 10px;
-
-            background: white;
-
-            border-radius: 5px;
-
-            word-wrap: break-word;
-
-            font-family: monospace;
-
-        }
-
-
-        .decrypted {
-
-            margin-top: 15px;
-
-            padding: 10px;
-
-            background: #ecfdf5;
-
-            border-radius: 5px;
-
-        }
-
-
-        .status {
-
-            margin-top: 15px;
-
-            padding: 10px;
-
-            border-radius: 5px;
-
-            display: none;
-
-        }
-
-
-        .loading {
-
-            color: #555;
-
-        }
-
-    </style>
+  <meta charset="UTF-8">
+
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+  <title>Caesar Cipher Public Feed</title>
+
+  <style>
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #f2f4f7;
+      margin: 0;
+      padding: 30px;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: auto;
+      background: white;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    h1,
+    h2 {
+      text-align: center;
+    }
+
+    textarea,
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 8px;
+      margin-bottom: 15px;
+      box-sizing: border-box;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    textarea {
+      resize: vertical;
+    }
+
+    button {
+      padding: 10px 18px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-right: 5px;
+    }
+
+    .encrypt {
+      background: #2563eb;
+      color: white;
+    }
+
+    .decrypt {
+      background: #16a34a;
+      color: white;
+    }
+
+    .result {
+      background: #eef2ff;
+      padding: 15px;
+      margin-top: 20px;
+      border-radius: 5px;
+    }
+
+    .message {
+      background: #f8fafc;
+      padding: 15px;
+      margin-top: 15px;
+      border-left: 4px solid #2563eb;
+      border-radius: 5px;
+    }
+
+    .ciphertext {
+      background: white;
+      padding: 10px;
+      margin: 8px 0;
+      border-radius: 5px;
+      word-break: break-word;
+      font-family: monospace;
+    }
+
+    .decrypted {
+      margin-top: 12px;
+      padding: 10px;
+      background: #ecfdf5;
+      border-radius: 5px;
+    }
+
+    #status {
+      margin-top: 15px;
+      padding: 10px;
+      border-radius: 5px;
+      display: none;
+    }
+
+  </style>
 
 </head>
 
 
 <body>
 
-
 <div class="container">
 
-
-    <h1>Caesar Cipher</h1>
-
-
-    <!-- ========================= -->
-    <!-- MESSAGE INPUT -->
-    <!-- ========================= -->
-
-    <label for="message">
-        Enter Message
-    </label>
-
-    <textarea
-        id="message"
-        placeholder="Type your message here...">
-    </textarea>
+  <h1>Caesar Cipher</h1>
 
 
-    <!-- ========================= -->
-    <!-- SECRET KEY -->
-    <!-- ========================= -->
+  <!-- MESSAGE -->
 
-    <label for="key">
-        Secret Key
-    </label>
+  <label for="message">
+    Enter Message:
+  </label>
 
-    <input
-        type="number"
-        id="key"
-        placeholder="Example: 3">
+  <textarea
+    id="message"
+    rows="4"
+    placeholder="Enter your message here..."></textarea>
 
 
-    <!-- ========================= -->
-    <!-- ENCRYPT BUTTON -->
-    <!-- ========================= -->
+  <!-- SECRET KEY -->
 
-    <button
-        class="encrypt-button"
-        onclick="encryptAndPost()">
+  <label for="key">
+    Secret Key:
+  </label>
 
-        Encrypt & Post
-
-    </button>
-
-
-    <!-- ========================= -->
-    <!-- RESULT -->
-    <!-- ========================= -->
-
-    <div
-        class="result"
-        id="result">
-
-        <strong>
-            Encrypted Message:
-        </strong>
-
-        <p id="encryptedResult">
-            No encrypted message yet.
-        </p>
-
-    </div>
+  <input
+    type="number"
+    id="key"
+    placeholder="Enter secret key">
 
 
-    <!-- ========================= -->
-    <!-- STATUS -->
-    <!-- ========================= -->
+  <!-- ENCRYPT -->
 
-    <div
-        class="status"
-        id="status">
-    </div>
+  <button
+    class="encrypt"
+    onclick="encryptAndPost()">
 
+    Encrypt & Post
 
-    <!-- ========================= -->
-    <!-- PUBLIC FEED -->
-    <!-- ========================= -->
-
-    <h2>
-        Public Feed
-    </h2>
+  </button>
 
 
-    <div id="feed">
+  <!-- RESULT -->
 
-        <p class="loading">
-            Loading messages...
-        </p>
+  <div class="result">
 
-    </div>
+    <b>Encrypted Message:</b>
 
+    <p id="result">
+      No result yet.
+    </p>
+
+  </div>
+
+
+  <!-- STATUS -->
+
+  <div id="status"></div>
+
+
+  <!-- PUBLIC FEED -->
+
+  <h2>
+    Public Feed
+  </h2>
+
+  <div id="feed">
+
+    Loading messages...
+
+  </div>
 
 </div>
-
 
 
 <script>
 
 
 // ==================================================
-// IMPORTANT:
-// PUT YOUR GOOGLE APPS SCRIPT WEB APP URL HERE
+// YOUR GOOGLE APPS SCRIPT WEB APP URL
 // ==================================================
 
 const SCRIPT_URL =
-    "https://script.google.com/macros/s/ABC123456789/exec";
+  "https://script.google.com/macros/s/AKfycbztJEEueilYJzi3tmB1HRlyyWUwNgh_3HgVFrb_28cWO1h3KdxdgXuW0ABY0CPa8s3C4Q/exec";
 
 
 
 // ==================================================
-// CAESAR CIPHER ENCRYPTION
+// CAESAR ENCRYPTION
 // ==================================================
 
 function caesarEncrypt(text, key) {
 
-    let result = "";
+  let result = "";
+
+  key = ((key % 26) + 26) % 26;
+
+  for (let i = 0; i < text.length; i++) {
+
+    let code =
+      text.charCodeAt(i);
 
 
-    // Make sure key stays within 0-25
+    // Uppercase letters
 
-    key = ((key % 26) + 26) % 26;
+    if (code >= 65 && code <= 90) {
 
-
-    for (let i = 0; i < text.length; i++) {
-
-
-        let code =
-            text.charCodeAt(i);
-
-
-        // Uppercase A-Z
-
-        if (
-            code >= 65 &&
-            code <= 90
-        ) {
-
-            result += String.fromCharCode(
-                ((code - 65 + key) % 26) + 65
-            );
-
-        }
-
-
-        // Lowercase a-z
-
-        else if (
-            code >= 97 &&
-            code <= 122
-        ) {
-
-            result += String.fromCharCode(
-                ((code - 97 + key) % 26) + 97
-            );
-
-        }
-
-
-        // Numbers, spaces and symbols
-
-        else {
-
-            result += text[i];
-
-        }
+      result += String.fromCharCode(
+        ((code - 65 + key) % 26) + 65
+      );
 
     }
 
 
-    return result;
+    // Lowercase letters
+
+    else if (code >= 97 && code <= 122) {
+
+      result += String.fromCharCode(
+        ((code - 97 + key) % 26) + 97
+      );
+
+    }
+
+
+    // Spaces, numbers and symbols
+
+    else {
+
+      result += text[i];
+
+    }
+
+  }
+
+  return result;
 
 }
 
 
 
 // ==================================================
-// CAESAR CIPHER DECRYPTION
+// CAESAR DECRYPTION
 // ==================================================
 
 function caesarDecrypt(text, key) {
 
-    return caesarEncrypt(
-        text,
-        -key
-    );
+  return caesarEncrypt(
+    text,
+    -key
+  );
 
 }
 
 
 
 // ==================================================
-// ENCRYPT MESSAGE AND SAVE TO GOOGLE SHEETS
+// ENCRYPT AND SAVE TO GOOGLE SHEETS
 // ==================================================
 
 function encryptAndPost() {
 
-
-    const message =
-        document
-        .getElementById("message")
-        .value
-        .trim();
-
-
-    const key =
-        parseInt(
-            document
-            .getElementById("key")
-            .value
-        );
-
-
-    // Check message
-
-    if (message === "") {
-
-        alert(
-            "Please enter a message."
-        );
-
-        return;
-
-    }
-
-
-    // Check key
-
-    if (isNaN(key)) {
-
-        alert(
-            "Please enter a secret key."
-        );
-
-        return;
-
-    }
-
-
-    // Encrypt
-
-    const ciphertext =
-        caesarEncrypt(
-            message,
-            key
-        );
-
-
-    // Display encrypted message
-
+  const message =
     document
-        .getElementById(
-            "encryptedResult"
-        )
-        .innerText =
-            ciphertext;
+      .getElementById("message")
+      .value
+      .trim();
 
 
-    showStatus(
-        "Saving message...",
-        false
+  const key =
+    parseInt(
+      document
+        .getElementById("key")
+        .value
     );
 
 
-    // Generate callback name
+  // Check message
 
-    const callbackName =
-        "saveCallback_" +
-        Date.now();
+  if (message === "") {
+
+    alert(
+      "Please enter a message."
+    );
+
+    return;
+
+  }
 
 
-    // Create script element
+  // Check key
 
-    const script =
-        document.createElement(
-            "script"
+  if (isNaN(key)) {
+
+    alert(
+      "Please enter a secret key."
+    );
+
+    return;
+
+  }
+
+
+  // Encrypt message
+
+  const ciphertext =
+    caesarEncrypt(
+      message,
+      key
+    );
+
+
+  // Show encrypted message
+
+  document
+    .getElementById("result")
+    .innerText =
+      ciphertext;
+
+
+  showStatus(
+    "Saving message...",
+    false
+  );
+
+
+  // Create JSONP callback
+
+  const callbackName =
+    "saveCallback_" +
+    Date.now();
+
+
+  const script =
+    document.createElement("script");
+
+
+  // API URL
+
+  const url =
+    SCRIPT_URL +
+    "?action=save" +
+    "&ciphertext=" +
+    encodeURIComponent(
+      ciphertext
+    ) +
+    "&plaintext=" +
+    encodeURIComponent(
+      message
+    ) +
+    "&key=" +
+    encodeURIComponent(
+      key
+    ) +
+    "&callback=" +
+    callbackName;
+
+
+  // Callback
+
+  window[callbackName] =
+    function(response) {
+
+      if (response.success) {
+
+        showStatus(
+          "Message successfully saved to Google Sheets!",
+          true
         );
 
 
-    // Build Google Apps Script URL
+        // Clear input
 
-    const url =
-        SCRIPT_URL +
-        "?action=save" +
-        "&ciphertext=" +
-        encodeURIComponent(
-            ciphertext
-        ) +
-        "&plaintext=" +
-        encodeURIComponent(
-            message
-        ) +
-        "&key=" +
-        encodeURIComponent(
-            key
-        ) +
-        "&callback=" +
-        callbackName;
+        document
+          .getElementById("message")
+          .value = "";
 
 
-    // Create callback
-
-    window[callbackName] =
-        function(response) {
-
-
-            if (response.success) {
-
-                showStatus(
-                    "Message successfully saved to Google Sheets!",
-                    true
-                );
+        document
+          .getElementById("key")
+          .value = "";
 
 
-                // Clear input
+        // Reload feed
 
-                document
-                    .getElementById(
-                        "message"
-                    )
-                    .value = "";
+        loadMessages();
 
+      }
 
-                document
-                    .getElementById(
-                        "key"
-                    )
-                    .value = "";
+      else {
 
-
-                // Reload feed
-
-                loadMessages();
-
-            }
-
-            else {
-
-                showStatus(
-                    "Error: " +
-                    response.message,
-                    false
-                );
-
-            }
-
-
-            // Remove script
-
-            document
-                .body
-                .removeChild(
-                    script
-                );
-
-
-            delete window[
-                callbackName
-            ];
-
-        };
-
-
-    script.src = url;
-
-
-    document
-        .body
-        .appendChild(
-            script
+        showStatus(
+          "Error: " +
+          response.message,
+          false
         );
+
+      }
+
+
+      // Remove script
+
+      if (script.parentNode) {
+
+        script.parentNode.removeChild(
+          script
+        );
+
+      }
+
+
+      delete window[
+        callbackName
+      ];
+
+    };
+
+
+  script.src = url;
+
+
+  document
+    .body
+    .appendChild(script);
 
 }
 
@@ -629,73 +448,65 @@ function encryptAndPost() {
 
 function loadMessages() {
 
+  const callbackName =
+    "loadCallback_" +
+    Date.now();
 
-    const callbackName =
-        "loadCallback_" +
-        Date.now();
+
+  const script =
+    document.createElement("script");
 
 
-    const script =
-        document.createElement(
-            "script"
+  const url =
+    SCRIPT_URL +
+    "?action=getMessages" +
+    "&callback=" +
+    callbackName;
+
+
+  window[callbackName] =
+    function(response) {
+
+      if (response.success) {
+
+        displayMessages(
+          response.messages
         );
 
+      }
 
-    const url =
-        SCRIPT_URL +
-        "?action=getMessages" +
-        "&callback=" +
-        callbackName;
+      else {
 
+        document
+          .getElementById("feed")
+          .innerHTML =
+            "<p>Error loading messages.</p>";
 
-    window[callbackName] =
-        function(response) {
-
-
-            if (response.success) {
-
-                displayMessages(
-                    response.messages
-                );
-
-            }
-
-            else {
-
-                document
-                    .getElementById(
-                        "feed"
-                    )
-                    .innerHTML =
-                        "<p>Error loading messages.</p>";
-
-            }
+      }
 
 
-            // Remove script
+      if (script.parentNode) {
 
-            document
-                .body
-                .removeChild(
-                    script
-                );
-
-
-            delete window[
-                callbackName
-            ];
-
-        };
-
-
-    script.src = url;
-
-
-    document
-        .body
-        .appendChild(
-            script
+        script.parentNode.removeChild(
+          script
         );
+
+      }
+
+
+      delete window[
+        callbackName
+      ];
+
+    };
+
+
+  script.src = url;
+
+
+  document
+    .body
+    .appendChild(script);
 
 }
 
@@ -707,215 +518,179 @@ function loadMessages() {
 
 function displayMessages(messages) {
 
+  const feed =
+    document
+      .getElementById("feed");
 
-    const feed =
-        document
-        .getElementById(
-            "feed"
+
+  feed.innerHTML = "";
+
+
+  if (
+    !messages ||
+    messages.length === 0
+  ) {
+
+    feed.innerHTML =
+      "<p>No messages yet.</p>";
+
+    return;
+
+  }
+
+
+  // Newest message first
+
+  messages.reverse();
+
+
+  messages.forEach(
+    function(message, index) {
+
+      const div =
+        document.createElement("div");
+
+
+      div.className =
+        "message";
+
+
+      // Title
+
+      const title =
+        document.createElement("strong");
+
+
+      title.innerText =
+        "Message " +
+        (index + 1);
+
+
+      div.appendChild(title);
+
+
+      // Timestamp
+
+      const timestamp =
+        document.createElement("p");
+
+
+      timestamp.innerHTML =
+        "<b>Timestamp:</b> " +
+        escapeHTML(
+          message.timestamp
         );
 
 
-    feed.innerHTML = "";
+      div.appendChild(timestamp);
 
 
-    if (
-        !messages ||
-        messages.length === 0
-    ) {
+      // Ciphertext label
 
-        feed.innerHTML =
-            "<p>No messages yet.</p>";
+      const label =
+        document.createElement("p");
 
-        return;
+
+      label.innerHTML =
+        "<b>Ciphertext:</b>";
+
+
+      div.appendChild(label);
+
+
+      // Ciphertext
+
+      const cipher =
+        document.createElement("div");
+
+
+      cipher.className =
+        "ciphertext";
+
+
+      cipher.innerText =
+        message.ciphertext;
+
+
+      div.appendChild(cipher);
+
+
+      // Key input
+
+      const keyInput =
+        document.createElement("input");
+
+
+      keyInput.type =
+        "number";
+
+
+      keyInput.placeholder =
+        "Enter secret key";
+
+
+      keyInput.id =
+        "decryptKey" +
+        index;
+
+
+      div.appendChild(keyInput);
+
+
+      // Decrypt button
+
+      const button =
+        document.createElement("button");
+
+
+      button.className =
+        "decrypt";
+
+
+      button.innerText =
+        "Decrypt";
+
+
+      button.onclick =
+        function() {
+
+          decryptMessage(
+            message.ciphertext,
+            index
+          );
+
+        };
+
+
+      div.appendChild(button);
+
+
+      // Decrypted message
+
+      const decrypted =
+        document.createElement("div");
+
+
+      decrypted.className =
+        "decrypted";
+
+
+      decrypted.id =
+        "decrypted" +
+        index;
+
+
+      decrypted.innerText =
+        "Enter the key to decrypt.";
+
+
+      div.appendChild(decrypted);
+
+
+      feed.appendChild(div);
 
     }
-
-
-    // Show newest messages first
-
-    messages.reverse();
-
-
-    messages.forEach(
-        function(message, index) {
-
-
-            const div =
-                document.createElement(
-                    "div"
-                );
-
-
-            div.className =
-                "message";
-
-
-            // Message title
-
-            const title =
-                document.createElement(
-                    "strong"
-                );
-
-
-            title.innerText =
-                "Message " +
-                (index + 1);
-
-
-            div.appendChild(
-                title
-            );
-
-
-            // Timestamp
-
-            const timestamp =
-                document.createElement(
-                    "p"
-                );
-
-
-            timestamp.innerHTML =
-                "<b>Timestamp:</b> " +
-                escapeHTML(
-                    message.timestamp
-                );
-
-
-            div.appendChild(
-                timestamp
-            );
-
-
-            // Ciphertext label
-
-            const cipherLabel =
-                document.createElement(
-                    "p"
-                );
-
-
-            cipherLabel.innerHTML =
-                "<b>Ciphertext:</b>";
-
-
-            div.appendChild(
-                cipherLabel
-            );
-
-
-            // Ciphertext
-
-            const cipherText =
-                document.createElement(
-                    "div"
-                );
-
-
-            cipherText.className =
-                "ciphertext";
-
-
-            cipherText.innerText =
-                message.ciphertext;
-
-
-            div.appendChild(
-                cipherText
-            );
-
-
-            // Key input
-
-            const keyInput =
-                document.createElement(
-                    "input"
-                );
-
-
-            keyInput.type =
-                "number";
-
-
-            keyInput.placeholder =
-                "Enter secret key";
-
-
-            keyInput.id =
-                "decryptKey" +
-                index;
-
-
-            div.appendChild(
-                keyInput
-            );
-
-
-            // Decrypt button
-
-            const decryptButton =
-                document.createElement(
-                    "button"
-                );
-
-
-            decryptButton.className =
-                "decrypt-button";
-
-
-            decryptButton.innerText =
-                "Decrypt";
-
-
-            decryptButton.onclick =
-                function() {
-
-                    decryptMessage(
-                        message.ciphertext,
-                        index
-                    );
-
-                };
-
-
-            div.appendChild(
-                decryptButton
-            );
-
-
-            // Decrypted result
-
-            const decrypted =
-                document.createElement(
-                    "div"
-                );
-
-
-            decrypted.className =
-                "decrypted";
-
-
-            decrypted.id =
-                "decrypted" +
-                index;
-
-
-            decrypted.innerText =
-                "Decrypted message will appear here.";
-
-
-            div.appendChild(
-                decrypted
-            );
-
-
-            feed.appendChild(
-                div
-            );
-
-        }
-    );
+  );
 
 }
 
@@ -926,51 +701,47 @@ function displayMessages(messages) {
 // ==================================================
 
 function decryptMessage(
-    ciphertext,
-    index
+  ciphertext,
+  index
 ) {
 
-
-    const key =
-        parseInt(
-            document
-            .getElementById(
-                "decryptKey" +
-                index
-            )
-            .value
-        );
-
-
-    if (isNaN(key)) {
-
-        alert(
-            "Please enter the secret key."
-        );
-
-        return;
-
-    }
-
-
-    const plaintext =
-        caesarDecrypt(
-            ciphertext,
-            key
-        );
-
-
-    const result =
-        document
+  const key =
+    parseInt(
+      document
         .getElementById(
-            "decrypted" +
-            index
-        );
+          "decryptKey" +
+          index
+        )
+        .value
+    );
 
 
-    result.innerText =
-        "Decrypted: " +
-        plaintext;
+  if (isNaN(key)) {
+
+    alert(
+      "Please enter the secret key."
+    );
+
+    return;
+
+  }
+
+
+  const plaintext =
+    caesarDecrypt(
+      ciphertext,
+      key
+    );
+
+
+  document
+    .getElementById(
+      "decrypted" +
+      index
+    )
+    .innerText =
+      "Decrypted: " +
+      plaintext;
 
 }
 
@@ -981,45 +752,42 @@ function decryptMessage(
 // ==================================================
 
 function showStatus(
-    message,
-    success
+  message,
+  success
 ) {
 
-
-    const status =
-        document
-        .getElementById(
-            "status"
-        );
+  const status =
+    document
+      .getElementById("status");
 
 
-    status.style.display =
-        "block";
+  status.style.display =
+    "block";
 
 
-    status.innerText =
-        message;
+  status.innerText =
+    message;
 
 
-    if (success) {
+  if (success) {
 
-        status.style.background =
-            "#dcfce7";
+    status.style.background =
+      "#dcfce7";
 
-        status.style.color =
-            "#166534";
+    status.style.color =
+      "#166534";
 
-    }
+  }
 
-    else {
+  else {
 
-        status.style.background =
-            "#fee2e2";
+    status.style.background =
+      "#fee2e2";
 
-        status.style.color =
-            "#991b1b";
+    status.style.color =
+      "#991b1b";
 
-    }
+  }
 
 }
 
@@ -1031,34 +799,33 @@ function showStatus(
 
 function escapeHTML(text) {
 
-    const div =
-        document.createElement(
-            "div"
-        );
+  const div =
+    document.createElement("div");
 
-    div.innerText =
-        text;
 
-    return div.innerHTML;
+  div.innerText =
+    text;
+
+
+  return div.innerHTML;
 
 }
 
 
 
 // ==================================================
-// LOAD FEED WHEN PAGE OPENS
+// LOAD PUBLIC FEED WHEN PAGE OPENS
 // ==================================================
 
 window.onload =
-    function() {
+  function() {
 
-        loadMessages();
+    loadMessages();
 
-    };
+  };
 
 
 </script>
-
 
 </body>
 
