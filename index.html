@@ -8,7 +8,7 @@
   <meta name="viewport"
         content="width=device-width, initial-scale=1.0">
 
-  <title>Caesar Cipher Public Feed</title>
+  <title>Vigenère Cipher Public Feed</title>
 
   <style>
 
@@ -43,7 +43,6 @@
       padding: 10px;
       margin-top: 8px;
       margin-bottom: 15px;
-      box-sizing: border-box;
       border: 1px solid #ccc;
       border-radius: 5px;
     }
@@ -117,7 +116,7 @@
 
 <div class="container">
 
-  <h1>Caesar Cipher</h1>
+  <h1>Vigenère Cipher</h1>
 
 
   <!-- MESSAGE -->
@@ -139,9 +138,10 @@
   </label>
 
   <input
-    type="number"
+    type="text"
     id="key"
-    placeholder="Enter secret key">
+    placeholder="Enter secret key (e.g. SECRET)"
+    autocomplete="off">
 
 
   <!-- ENCRYPT -->
@@ -192,7 +192,7 @@
 
 
 // ==================================================
-// YOUR GOOGLE APPS SCRIPT WEB APP URL
+// GOOGLE APPS SCRIPT WEB APP URL
 // ==================================================
 
 const SCRIPT_URL =
@@ -201,14 +201,25 @@ const SCRIPT_URL =
 
 
 // ==================================================
-// CAESAR ENCRYPTION
+// VIGENÈRE ENCRYPTION
 // ==================================================
 
-function caesarEncrypt(text, key) {
+function vigenereEncrypt(text, key) {
 
   let result = "";
 
-  key = ((key % 26) + 26) % 26;
+  key = key
+    .toUpperCase()
+    .replace(/[^A-Z]/g, "");
+
+
+  if (key.length === 0) {
+    return "";
+  }
+
+
+  let keyIndex = 0;
+
 
   for (let i = 0; i < text.length; i++) {
 
@@ -220,9 +231,16 @@ function caesarEncrypt(text, key) {
 
     if (code >= 65 && code <= 90) {
 
+      const shift =
+        key.charCodeAt(keyIndex % key.length) - 65;
+
+
       result += String.fromCharCode(
-        ((code - 65 + key) % 26) + 65
+        ((code - 65 + shift) % 26) + 65
       );
+
+
+      keyIndex++;
 
     }
 
@@ -231,9 +249,16 @@ function caesarEncrypt(text, key) {
 
     else if (code >= 97 && code <= 122) {
 
+      const shift =
+        key.charCodeAt(keyIndex % key.length) - 65;
+
+
       result += String.fromCharCode(
-        ((code - 97 + key) % 26) + 97
+        ((code - 97 + shift) % 26) + 97
       );
+
+
+      keyIndex++;
 
     }
 
@@ -248,6 +273,7 @@ function caesarEncrypt(text, key) {
 
   }
 
+
   return result;
 
 }
@@ -255,15 +281,80 @@ function caesarEncrypt(text, key) {
 
 
 // ==================================================
-// CAESAR DECRYPTION
+// VIGENÈRE DECRYPTION
 // ==================================================
 
-function caesarDecrypt(text, key) {
+function vigenereDecrypt(text, key) {
 
-  return caesarEncrypt(
-    text,
-    -key
-  );
+  let result = "";
+
+  key = key
+    .toUpperCase()
+    .replace(/[^A-Z]/g, "");
+
+
+  if (key.length === 0) {
+    return "";
+  }
+
+
+  let keyIndex = 0;
+
+
+  for (let i = 0; i < text.length; i++) {
+
+    let code =
+      text.charCodeAt(i);
+
+
+    // Uppercase letters
+
+    if (code >= 65 && code <= 90) {
+
+      const shift =
+        key.charCodeAt(keyIndex % key.length) - 65;
+
+
+      result += String.fromCharCode(
+        ((code - 65 - shift + 26) % 26) + 65
+      );
+
+
+      keyIndex++;
+
+    }
+
+
+    // Lowercase letters
+
+    else if (code >= 97 && code <= 122) {
+
+      const shift =
+        key.charCodeAt(keyIndex % key.length) - 65;
+
+
+      result += String.fromCharCode(
+        ((code - 97 - shift + 26) % 26) + 97
+      );
+
+
+      keyIndex++;
+
+    }
+
+
+    // Spaces, numbers and symbols
+
+    else {
+
+      result += text[i];
+
+    }
+
+  }
+
+
+  return result;
 
 }
 
@@ -283,11 +374,10 @@ function encryptAndPost() {
 
 
   const key =
-    parseInt(
-      document
-        .getElementById("key")
-        .value
-    );
+    document
+      .getElementById("key")
+      .value
+      .trim();
 
 
   // Check message
@@ -305,7 +395,7 @@ function encryptAndPost() {
 
   // Check key
 
-  if (isNaN(key)) {
+  if (key === "") {
 
     alert(
       "Please enter a secret key."
@@ -316,10 +406,23 @@ function encryptAndPost() {
   }
 
 
+  // Check key contains letters
+
+  if (!/[A-Za-z]/.test(key)) {
+
+    alert(
+      "The secret key must contain letters."
+    );
+
+    return;
+
+  }
+
+
   // Encrypt message
 
   const ciphertext =
-    caesarEncrypt(
+    vigenereEncrypt(
       message,
       key
     );
@@ -431,6 +534,29 @@ function encryptAndPost() {
     };
 
 
+  script.onerror =
+    function() {
+
+      showStatus(
+        "Unable to connect to Google Apps Script.",
+        false
+      );
+
+      if (script.parentNode) {
+
+        script.parentNode.removeChild(
+          script
+        );
+
+      }
+
+      delete window[
+        callbackName
+      ];
+
+    };
+
+
   script.src = url;
 
 
@@ -493,6 +619,29 @@ function loadMessages() {
 
       }
 
+
+      delete window[
+        callbackName
+      ];
+
+    };
+
+
+  script.onerror =
+    function() {
+
+      document
+        .getElementById("feed")
+        .innerHTML =
+          "<p>Unable to connect to Google Sheets.</p>";
+
+      if (script.parentNode) {
+
+        script.parentNode.removeChild(
+          script
+        );
+
+      }
 
       delete window[
         callbackName
@@ -622,11 +771,15 @@ function displayMessages(messages) {
 
 
       keyInput.type =
-        "number";
+        "text";
 
 
       keyInput.placeholder =
         "Enter secret key";
+
+
+      keyInput.autocomplete =
+        "off";
 
 
       keyInput.id =
@@ -706,17 +859,16 @@ function decryptMessage(
 ) {
 
   const key =
-    parseInt(
-      document
-        .getElementById(
-          "decryptKey" +
-          index
-        )
-        .value
-    );
+    document
+      .getElementById(
+        "decryptKey" +
+        index
+      )
+      .value
+      .trim();
 
 
-  if (isNaN(key)) {
+  if (key === "") {
 
     alert(
       "Please enter the secret key."
@@ -727,8 +879,19 @@ function decryptMessage(
   }
 
 
+  if (!/[A-Za-z]/.test(key)) {
+
+    alert(
+      "The secret key must contain letters."
+    );
+
+    return;
+
+  }
+
+
   const plaintext =
-    caesarDecrypt(
+    vigenereDecrypt(
       ciphertext,
       key
     );
